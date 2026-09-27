@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+
+# Certificados digitais e credenciais - nunca versionar
+*.pfx
+*.p12
+*.key
+*.pem

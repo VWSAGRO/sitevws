@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Despesas — Fazenda</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Controle de Despesas da Fazenda</h1>
+  <div id="userBox" class="user-box hidden">
+    <span id="userName"></span>
+    <button id="btnLogout" class="btn-link">Sair</button>
+  </div>
+</header>
+
+<main>
+
+  <section id="loginSection" class="card center">
+    <p>Entre com sua conta Google para lançar despesas.</p>
+    <div id="googleBtn"></div>
+    <p id="loginError" class="error hidden"></p>
+  </section>
+
+  <section id="appSection" class="hidden">
+
+    <section class="card">
+      <h2>Nova despesa</h2>
+      <form id="formDespesa">
+        <div class="grid">
+          <label>Data
+            <input type="date" id="fData" required>
+          </label>
+
+          <label>Centro de Custo
+            <select id="fCentroCusto" required></select>
+          </label>
+
+          <label>Categoria
+            <select id="fCategoria" required></select>
+          </label>
+
+          <label class="col-2">Descrição
+            <input type="text" id="fDescricao" required maxlength="200">
+          </label>
+
+          <label>Fornecedor
+            <input type="text" id="fFornecedor" list="listaFornecedores" required maxlength="120">
+            <datalist id="listaFornecedores"></datalist>
+          </label>
+
+          <label>Forma de Pagamento
+            <select id="fFormaPagamento" required></select>
+          </label>
+
+          <label>Valor (R$)
+            <input type="number" id="fValor" step="0.01" min="0" required>
+          </label>
+
+          <label>Status
+            <select id="fStatus" required>
+              <option value="Pago">Pago</option>
+              <option value="Pendente">Pendente</option>
+            </select>
+          </label>
+
+          <label>Vencimento
+            <input type="date" id="fVencimento">
+          </label>
+
+          <label class="col-2">Observações
+            <input type="text" id="fObservacoes" maxlength="200">
+          </label>
+        </div>
+
+        <button type="submit" id="btnSalvar">Lançar despesa</button>
+        <p id="formMsg" class="hidden"></p>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="row-between">
+        <h2>Últimos lançamentos</h2>
+        <button id="btnAtualizar" class="btn-link">Atualizar</button>
+      </div>
+      <div class="table-wrap">
+        <table id="tabelaRecentes">
+          <thead>
+            <tr>
+              <th>Data</th><th>Centro de Custo</th><th>Categoria</th><th>Descrição</th>
+              <th>Fornecedor</th><th>Valor</th><th>Status</th><th>Lançado por</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+
+</main>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
