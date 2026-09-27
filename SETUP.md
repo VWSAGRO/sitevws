@@ -35,9 +35,9 @@ código do site seja público no GitHub.
    - `http://localhost:5500` (ou outra porta, só para testar localmente)
 6. Copie o **Client ID** gerado.
 
-## 3. Preencha o `site/config.js`
+## 3. Preencha o `docs/config.js`
 
-Abra `site/config.js` e preencha:
+Abra `docs/config.js` e preencha:
 - `GOOGLE_CLIENT_ID`: o Client ID do passo 2.
 - `ALLOWED_EMAILS`: lista das contas Google autorizadas (as mesmas do passo 1).
 
@@ -54,9 +54,9 @@ git remote add origin https://github.com/SEU-USUARIO/SEU-REPO.git
 git push -u origin main
 ```
 
-No GitHub: **Settings > Pages > Branch: main**, pasta `/site` (ou mova o
-conteúdo de `site/` para a raiz do repositório, como preferir). Depois de
-alguns minutos o site estará em `https://SEU-USUARIO.github.io/SEU-REPO/`.
+No GitHub: **Settings > Pages > Build and deployment > Source: Deploy from a
+branch > Branch: main, pasta `/docs`** > Save. Depois de alguns minutos o
+site estará em `https://SEU-USUARIO.github.io/SEU-REPO/`.
 
 > Importante: se o repositório for público, o código-fonte fica visível —
 > mas como não há senha nenhuma no código (só o Client ID, que é público por
