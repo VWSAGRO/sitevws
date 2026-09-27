@@ -154,8 +154,10 @@
               </label>
 
               <label>Fornecedor
-                <input type="text" id="fFornecedor" list="listaFornecedores" required maxlength="120">
-                <datalist id="listaFornecedores"></datalist>
+                <div class="autocomplete-wrap">
+                  <input type="text" id="fFornecedor" autocomplete="off" required maxlength="120">
+                  <div id="fFornecedorDropdown" class="autocomplete-list hidden"></div>
+                </div>
               </label>
 
               <label>Forma de Pagamento
@@ -246,7 +248,10 @@
                   <input type="text" id="eDescricao" required maxlength="200">
                 </label>
                 <label>Fornecedor
-                  <input type="text" id="eFornecedor" list="listaFornecedores" required maxlength="120">
+                  <div class="autocomplete-wrap">
+                    <input type="text" id="eFornecedor" autocomplete="off" required maxlength="120">
+                    <div id="eFornecedorDropdown" class="autocomplete-list hidden"></div>
+                  </div>
                 </label>
                 <label>Forma de Pagamento
                   <select id="eFormaPagamento" required></select>

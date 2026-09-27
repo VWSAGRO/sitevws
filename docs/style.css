@@ -219,6 +219,31 @@ input:focus, select:focus {
 .btn-primary:hover { background: var(--accent-dark); }
 .btn-primary:disabled { opacity: 0.55; cursor: default; }
 
+.autocomplete-wrap { position: relative; }
+
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 30;
+}
+
+.autocomplete-item {
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover { background: var(--accent-light); }
+.autocomplete-empty { padding: 9px 12px; font-size: 0.85rem; color: var(--muted); }
+
 .form-inline button.btn-primary { margin-top: 0; }
 
 .btn-link {

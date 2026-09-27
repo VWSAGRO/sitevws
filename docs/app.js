@@ -602,8 +602,6 @@ async function carregarFornecedores() {
   const dados = await sheetsGet(CONFIG.SHEETS.fornecedores + '!A4:D1000');
   fornecedoresRows = dados.map(function (vals, i) { return { row: i + 4, vals: vals }; }).filter(function (r) { return r.vals[0]; });
   renderFornecedoresTable();
-  document.getElementById('listaFornecedores').innerHTML = fornecedoresRows
-    .map(function (r) { return '<option value="' + escapeHtml(r.vals[0]) + '"></option>'; }).join('');
 }
 
 function renderFornecedoresTable() {
@@ -832,3 +830,42 @@ function renderMonthlyChart(canvasId, existingRef, labels, values) {
     },
   });
 }
+
+// ===================== Autocomplete de Fornecedor =====================
+function configurarAutocompleteFornecedor(inputId, dropdownId) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+
+  function render() {
+    const termo = input.value.trim().toLowerCase();
+    const nomes = fornecedoresRows
+      .map(function (r) { return r.vals[0]; })
+      .filter(function (nome) { return nome && (!termo || nome.toLowerCase().indexOf(termo) !== -1); });
+
+    dropdown.innerHTML = nomes.length
+      ? nomes.map(function (nome) { return '<div class="autocomplete-item">' + escapeHtml(nome) + '</div>'; }).join('')
+      : '<div class="autocomplete-empty">Nenhum fornecedor cadastrado ainda — digite o nome livremente.</div>';
+    dropdown.classList.remove('hidden');
+  }
+
+  input.addEventListener('focus', render);
+  input.addEventListener('input', render);
+  input.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') dropdown.classList.add('hidden');
+  });
+
+  dropdown.addEventListener('mousedown', function (ev) {
+    const item = ev.target.closest('.autocomplete-item');
+    if (!item) return;
+    ev.preventDefault();
+    input.value = item.textContent;
+    dropdown.classList.add('hidden');
+  });
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target !== input && !dropdown.contains(ev.target)) dropdown.classList.add('hidden');
+  });
+}
+
+configurarAutocompleteFornecedor('fFornecedor', 'fFornecedorDropdown');
+configurarAutocompleteFornecedor('eFornecedor', 'eFornecedorDropdown');
