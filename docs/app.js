@@ -125,7 +125,7 @@ function showLoginError(msg) {
 
 async function onLoginSuccess() {
   document.getElementById('loginSection').classList.add('hidden');
-  document.getElementById('appSection').classList.remove('hidden');
+  document.getElementById('appShell').classList.remove('hidden');
   document.getElementById('userBox').classList.remove('hidden');
   document.getElementById('mainNav').classList.remove('hidden');
   document.getElementById('userName').textContent = currentUser.name || currentUser.email;
@@ -140,7 +140,7 @@ document.getElementById('btnLogout').addEventListener('click', function () {
   if (accessToken) google.accounts.oauth2.revoke(accessToken, function () {});
   accessToken = null;
   currentUser = null;
-  document.getElementById('appSection').classList.add('hidden');
+  document.getElementById('appShell').classList.add('hidden');
   document.getElementById('mainNav').classList.add('hidden');
   document.getElementById('userBox').classList.add('hidden');
   document.getElementById('loginSection').classList.remove('hidden');
