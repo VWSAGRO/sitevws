@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controle de Despesas — Fazenda</title>
 <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 </head>
@@ -12,7 +13,7 @@
 
 <section id="loginSection" class="login-screen">
   <div class="login-card">
-    <div class="login-brand">🌾 <span>VWS Agro</span></div>
+    <img src="logo.jpg" alt="VWS Agronegócios" class="login-logo">
     <h1>Controle de Despesas</h1>
     <p>Entre com sua conta Google para acessar.</p>
     <div id="googleBtn"></div>
@@ -23,7 +24,9 @@
 <div id="appShell" class="app-shell hidden">
 
   <aside class="sidebar">
-    <div class="sidebar-brand">🌾 <span>VWS Agro</span></div>
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-badge"><img src="logo.jpg" alt="VWS Agronegócios"></div>
+    </div>
 
     <nav id="mainNav" class="sidebar-nav">
       <button class="nav-btn active" data-view="dashboard">
@@ -179,7 +182,7 @@
                 <input type="date" id="fVencimento">
               </label>
 
-              <label>Número da NF <span class="opcional">(opcional)</span>
+              <label><span class="opcional">(opcional)</span> Número da NF
                 <input type="text" id="fNumeroNF" maxlength="40">
               </label>
 
@@ -272,7 +275,7 @@
                 <label>Vencimento
                   <input type="date" id="eVencimento">
                 </label>
-                <label>Número da NF <span class="opcional">(opcional)</span>
+                <label><span class="opcional">(opcional)</span> Número da NF
                   <input type="text" id="eNumeroNF" maxlength="40">
                 </label>
                 <label class="col-2">Observações

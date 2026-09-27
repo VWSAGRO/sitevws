@@ -59,12 +59,12 @@ body {
   width: 100%;
 }
 
-.login-brand {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent-dark);
-  margin-bottom: 18px;
-  letter-spacing: 0.02em;
+.login-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 16px;
 }
 
 .login-card h1 { font-size: 1.3rem; margin: 0 0 8px; color: var(--text); }
@@ -88,11 +88,20 @@ body {
 }
 
 .sidebar-brand {
-  color: var(--sidebar-text-active);
-  font-weight: 700;
-  font-size: 1.02rem;
-  padding: 22px 22px 18px;
-  letter-spacing: 0.02em;
+  padding: 20px 22px 6px;
+}
+
+.sidebar-logo-badge {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px;
+  display: inline-flex;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-logo-badge img {
+  width: 150px;
+  display: block;
 }
 
 .sidebar-nav {
@@ -405,7 +414,8 @@ tbody tr:hover { background: #f7f9f7; }
 @media (max-width: 900px) {
   .app-shell { flex-direction: column; }
   .sidebar { width: 100%; height: auto; position: static; flex-direction: row; align-items: center; }
-  .sidebar-brand { padding: 14px 16px; }
+  .sidebar-brand { padding: 10px 14px; }
+  .sidebar-logo-badge img { width: 90px; }
   .sidebar-nav { flex-direction: row; overflow-x: auto; padding: 6px 10px; }
   .nav-btn { flex-shrink: 0; }
   .sidebar-user { flex-direction: row; align-items: center; border-top: none; padding: 10px 16px; }
