@@ -10,326 +10,334 @@
 </head>
 <body>
 
-<header class="topbar">
-  <h1>Controle de Despesas da Fazenda</h1>
-  <div id="userBox" class="user-box hidden">
-    <span id="userName"></span>
-    <button id="btnLogout" class="btn-link">Sair</button>
-  </div>
-</header>
-
-<nav id="mainNav" class="mainnav hidden">
-  <button class="nav-btn active" data-view="lancamentos">Lançamentos</button>
-  <button class="nav-btn" data-view="despesas">Despesas</button>
-  <button class="nav-btn" data-view="centros">Centros de Custo</button>
-  <button class="nav-btn" data-view="fornecedores">Fornecedores</button>
-  <button class="nav-btn" data-view="dashboard">Dashboard</button>
-</nav>
-
-<main>
-
-  <section id="loginSection" class="card center">
-    <p>Entre com sua conta Google para lançar despesas.</p>
+<section id="loginSection" class="login-screen">
+  <div class="login-card">
+    <div class="login-brand">🌾 <span>VWS Agro</span></div>
+    <h1>Controle de Despesas</h1>
+    <p>Entre com sua conta Google para acessar.</p>
     <div id="googleBtn"></div>
     <p id="loginError" class="error hidden"></p>
-  </section>
+  </div>
+</section>
 
-  <section id="appSection" class="hidden">
+<div id="appShell" class="app-shell hidden">
 
-    <!-- ===================== LANÇAMENTOS ===================== -->
-    <section id="view-lancamentos" class="view">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 <span>VWS Agro</span></div>
 
-      <section class="card">
-        <h2>Nova despesa</h2>
-        <form id="formDespesa">
-          <div class="grid">
-            <label>Data
-              <input type="date" id="fData" required>
-            </label>
+    <nav id="mainNav" class="sidebar-nav">
+      <button class="nav-btn active" data-view="dashboard">
+        <svg viewBox="0 0 24 24"><path d="M4 19V10M10 19V5M16 19v-7M22 19V3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn" data-view="lancamentos">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Lançamentos
+      </button>
+      <button class="nav-btn" data-view="despesas">
+        <svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M9 9h6M9 13h6M9 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Despesas
+      </button>
+      <button class="nav-btn" data-view="centros">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        Centros de Custo
+      </button>
+      <button class="nav-btn" data-view="fornecedores">
+        <svg viewBox="0 0 24 24"><path d="M3 16V6a1 1 0 0 1 1-1h9v11" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M13 10h4l3 3v3h-7z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17" cy="18" r="2" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        Fornecedores
+      </button>
+    </nav>
 
-            <label>Centro de Custo
-              <select id="fCentroCusto" required></select>
-            </label>
+    <div id="userBox" class="sidebar-user hidden">
+      <span id="userName"></span>
+      <button id="btnLogout" class="btn-link">Sair</button>
+    </div>
+  </aside>
 
-            <label>Categoria
-              <select id="fCategoria" required></select>
-            </label>
+  <div class="main-area">
 
-            <label class="col-2">Descrição
-              <input type="text" id="fDescricao" required maxlength="200">
-            </label>
+    <header class="topbar">
+      <h1 id="pageTitle">Dashboard</h1>
+    </header>
 
-            <label>Fornecedor
-              <input type="text" id="fFornecedor" list="listaFornecedores" required maxlength="120">
-              <datalist id="listaFornecedores"></datalist>
-            </label>
+    <main>
 
-            <label>Forma de Pagamento
-              <select id="fFormaPagamento" required></select>
-            </label>
+      <!-- ===================== DASHBOARD ===================== -->
+      <section id="view-dashboard" class="view">
 
-            <label>Valor (R$)
-              <input type="number" id="fValor" step="0.01" min="0" required>
-            </label>
-
-            <label>Status
-              <select id="fStatus" required>
-                <option value="Pago">Pago</option>
-                <option value="Pendente">Pendente</option>
-              </select>
-            </label>
-
-            <label>Vencimento
-              <input type="date" id="fVencimento">
-            </label>
-
-            <label class="col-2">Observações
-              <input type="text" id="fObservacoes" maxlength="200">
-            </label>
-          </div>
-
-          <button type="submit" id="btnSalvar">Lançar despesa</button>
-          <p id="formMsg" class="hidden"></p>
-        </form>
-      </section>
-
-      <section class="card">
-        <div class="row-between">
-          <h2>Últimos lançamentos</h2>
-          <button id="btnAtualizar" class="btn-link">Atualizar</button>
-        </div>
-        <div class="table-wrap">
-          <table id="tabelaRecentes">
-            <thead>
-              <tr>
-                <th>Data</th><th>Centro de Custo</th><th>Categoria</th><th>Descrição</th>
-                <th>Fornecedor</th><th>Valor</th><th>Status</th><th>Lançado por</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <p class="hint">Lançamentos com Centro de Custo ou Categoria em branco (vindos das notas fiscais automáticas) aparecem destacados — vá em <strong>Despesas</strong> para completá-los.</p>
-      </section>
-
-    </section>
-
-    <!-- ===================== DESPESAS (editar + categorias) ===================== -->
-    <section id="view-despesas" class="view hidden">
-
-      <div class="subnav">
-        <button class="subnav-btn active" data-sub="despesas-lista">Lançamentos</button>
-        <button class="subnav-btn" data-sub="despesas-categorias">Categorias</button>
-      </div>
-
-      <div id="sub-despesas-lista" class="subview">
-        <section class="card">
-          <h2>Lançamentos existentes</h2>
+        <section class="card filtros-card">
           <div class="filtros-row">
-            <select id="filtroCentro"><option value="">Todos os Centros de Custo</option></select>
-            <select id="filtroCategoria"><option value="">Todas as Categorias</option></select>
-            <select id="filtroStatus">
-              <option value="">Todos os Status</option>
-              <option value="Pago">Pago</option>
-              <option value="Pendente">Pendente</option>
-            </select>
-            <input type="text" id="filtroBusca" placeholder="Buscar descrição ou fornecedor">
-            <label class="checkbox-inline"><input type="checkbox" id="filtroFaltaClassificar"> Só falta classificar</label>
-          </div>
-          <div class="table-wrap">
-            <table id="tabelaDespesasGrid">
-              <thead>
-                <tr>
-                  <th>Data</th><th>Centro de Custo</th><th>Categoria</th><th>Descrição</th>
-                  <th>Fornecedor</th><th>Valor</th><th>Status</th><th></th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <p id="despesasGridInfo" class="hint"></p>
-          <div class="row-between">
-            <button id="btnDespesasAnterior" class="btn-link">← Anterior</button>
-            <button id="btnDespesasProxima" class="btn-link">Próxima →</button>
+            <label class="filtro-label">De
+              <input type="date" id="dashDataInicio">
+            </label>
+            <label class="filtro-label">Até
+              <input type="date" id="dashDataFim">
+            </label>
+            <select id="dashCentro"><option value="">Todos os Centros de Custo</option></select>
+            <button id="btnAplicarFiltroDash" class="btn-primary">Aplicar filtro</button>
           </div>
         </section>
 
-        <section id="painelEditarDespesa" class="card hidden">
-          <h2>Editar lançamento</h2>
-          <form id="formEditarDespesa">
+        <section class="kpi-row">
+          <div class="kpi-card kpi-neutral">
+            <span class="kpi-label">Total lançado</span>
+            <span class="kpi-value" id="kpiTotalLancado">R$ 0,00</span>
+          </div>
+          <div class="kpi-card kpi-good">
+            <span class="kpi-label">Total pago</span>
+            <span class="kpi-value" id="kpiTotalPago">R$ 0,00</span>
+          </div>
+          <div class="kpi-card kpi-warning">
+            <span class="kpi-label">Total pendente</span>
+            <span class="kpi-value" id="kpiTotalPendente">R$ 0,00</span>
+          </div>
+          <div class="kpi-card kpi-critical">
+            <span class="kpi-label">Total vencido</span>
+            <span class="kpi-value" id="kpiTotalVencido">R$ 0,00</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Pendências e vencimentos</h2>
+          <div class="table-wrap">
+            <table id="tabelaVencimentos">
+              <thead><tr><th>Vencimento</th><th>Descrição</th><th>Fornecedor</th><th>Valor</th><th>Situação</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="card">
+            <h2>Por Centro de Custo</h2>
+            <div class="chart-wrap"><canvas id="chartCentro"></canvas></div>
+          </section>
+
+          <section class="card">
+            <h2>Por Categoria</h2>
+            <div class="chart-wrap"><canvas id="chartCategoria"></canvas></div>
+          </section>
+
+          <section class="card">
+            <h2>Principais Fornecedores</h2>
+            <div class="chart-wrap"><canvas id="chartFornecedor"></canvas></div>
+          </section>
+
+          <section class="card">
+            <h2>Evolução mensal (últimos 12 meses)</h2>
+            <div class="chart-wrap"><canvas id="chartMensal"></canvas></div>
+          </section>
+        </div>
+
+      </section>
+
+      <!-- ===================== LANÇAMENTOS ===================== -->
+      <section id="view-lancamentos" class="view hidden">
+        <section class="card card-form">
+          <h2>Nova despesa</h2>
+          <form id="formDespesa">
             <div class="grid">
               <label>Data
-                <input type="date" id="eData" required>
+                <input type="date" id="fData" required>
               </label>
+
               <label>Centro de Custo
-                <select id="eCentroCusto" required></select>
+                <select id="fCentroCusto" required></select>
               </label>
+
               <label>Categoria
-                <select id="eCategoria" required></select>
+                <select id="fCategoria" required></select>
               </label>
+
               <label class="col-2">Descrição
-                <input type="text" id="eDescricao" required maxlength="200">
+                <input type="text" id="fDescricao" required maxlength="200">
               </label>
+
               <label>Fornecedor
-                <input type="text" id="eFornecedor" list="listaFornecedores" required maxlength="120">
+                <input type="text" id="fFornecedor" list="listaFornecedores" required maxlength="120">
+                <datalist id="listaFornecedores"></datalist>
               </label>
+
               <label>Forma de Pagamento
-                <select id="eFormaPagamento" required></select>
+                <select id="fFormaPagamento" required></select>
               </label>
+
               <label>Valor (R$)
-                <input type="number" id="eValor" step="0.01" min="0" required>
+                <input type="number" id="fValor" step="0.01" min="0" required>
               </label>
+
               <label>Status
-                <select id="eStatus" required>
+                <select id="fStatus" required>
                   <option value="Pago">Pago</option>
                   <option value="Pendente">Pendente</option>
                 </select>
               </label>
+
               <label>Vencimento
-                <input type="date" id="eVencimento">
+                <input type="date" id="fVencimento">
               </label>
+
               <label class="col-2">Observações
-                <input type="text" id="eObservacoes" maxlength="200">
+                <input type="text" id="fObservacoes" maxlength="200">
               </label>
             </div>
-            <button type="submit">Salvar alterações</button>
-            <button type="button" id="btnCancelarEdicao" class="btn-link">Cancelar</button>
-            <p id="editMsg" class="hidden"></p>
+
+            <button type="submit" class="btn-primary" id="btnSalvar">Lançar despesa</button>
+            <p id="formMsg" class="hidden"></p>
           </form>
         </section>
-      </div>
+      </section>
 
-      <div id="sub-despesas-categorias" class="subview hidden">
-        <section class="card">
-          <h2>Categorias de despesa</h2>
-          <form id="formNovaCategoria" class="form-inline">
-            <input type="text" id="novaCategoriaNome" placeholder="Nome da categoria" required maxlength="80">
-            <input type="text" id="novaCategoriaArea" placeholder="Área (ex: Agrícola)" list="listaAreas" required maxlength="40">
-            <datalist id="listaAreas"></datalist>
-            <button type="submit">Adicionar</button>
+      <!-- ===================== DESPESAS (editar + categorias) ===================== -->
+      <section id="view-despesas" class="view hidden">
+
+        <div class="subnav">
+          <button class="subnav-btn active" data-sub="despesas-lista">Lançamentos</button>
+          <button class="subnav-btn" data-sub="despesas-categorias">Categorias</button>
+        </div>
+
+        <div id="sub-despesas-lista" class="subview">
+          <section class="card card-wide">
+            <div class="filtros-row">
+              <select id="filtroCentro"><option value="">Todos os Centros de Custo</option></select>
+              <select id="filtroCategoria"><option value="">Todas as Categorias</option></select>
+              <select id="filtroStatus">
+                <option value="">Todos os Status</option>
+                <option value="Pago">Pago</option>
+                <option value="Pendente">Pendente</option>
+              </select>
+              <input type="text" id="filtroBusca" placeholder="Buscar descrição ou fornecedor">
+              <label class="checkbox-inline"><input type="checkbox" id="filtroFaltaClassificar"> Só falta classificar</label>
+            </div>
+            <div class="table-wrap">
+              <table id="tabelaDespesasGrid">
+                <thead>
+                  <tr>
+                    <th>Data</th><th>Centro de Custo</th><th>Categoria</th><th>Descrição</th>
+                    <th>Fornecedor</th><th>Valor</th><th>Status</th><th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="row-between">
+              <p id="despesasGridInfo" class="hint"></p>
+              <div>
+                <button id="btnDespesasAnterior" class="btn-link">← Anterior</button>
+                <button id="btnDespesasProxima" class="btn-link">Próxima →</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="painelEditarDespesa" class="card card-wide hidden">
+            <h2>Editar lançamento</h2>
+            <form id="formEditarDespesa">
+              <div class="grid">
+                <label>Data
+                  <input type="date" id="eData" required>
+                </label>
+                <label>Centro de Custo
+                  <select id="eCentroCusto" required></select>
+                </label>
+                <label>Categoria
+                  <select id="eCategoria" required></select>
+                </label>
+                <label class="col-2">Descrição
+                  <input type="text" id="eDescricao" required maxlength="200">
+                </label>
+                <label>Fornecedor
+                  <input type="text" id="eFornecedor" list="listaFornecedores" required maxlength="120">
+                </label>
+                <label>Forma de Pagamento
+                  <select id="eFormaPagamento" required></select>
+                </label>
+                <label>Valor (R$)
+                  <input type="number" id="eValor" step="0.01" min="0" required>
+                </label>
+                <label>Status
+                  <select id="eStatus" required>
+                    <option value="Pago">Pago</option>
+                    <option value="Pendente">Pendente</option>
+                  </select>
+                </label>
+                <label>Vencimento
+                  <input type="date" id="eVencimento">
+                </label>
+                <label class="col-2">Observações
+                  <input type="text" id="eObservacoes" maxlength="200">
+                </label>
+              </div>
+              <button type="submit" class="btn-primary">Salvar alterações</button>
+              <button type="button" id="btnCancelarEdicao" class="btn-link">Cancelar</button>
+              <p id="editMsg" class="hidden"></p>
+            </form>
+          </section>
+        </div>
+
+        <div id="sub-despesas-categorias" class="subview hidden">
+          <section class="card card-wide">
+            <h2>Categorias de despesa</h2>
+            <form id="formNovaCategoria" class="form-inline">
+              <input type="text" id="novaCategoriaNome" placeholder="Nome da categoria" required maxlength="80">
+              <input type="text" id="novaCategoriaArea" placeholder="Área (ex: Agrícola)" list="listaAreas" required maxlength="40">
+              <datalist id="listaAreas"></datalist>
+              <button type="submit" class="btn-primary">Adicionar</button>
+            </form>
+            <div class="table-wrap">
+              <table id="tabelaCategorias">
+                <thead><tr><th>Categoria</th><th>Área</th><th></th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+      </section>
+
+      <!-- ===================== CENTROS DE CUSTO ===================== -->
+      <section id="view-centros" class="view hidden">
+        <section class="card card-wide">
+          <h2>Centros de Custo</h2>
+          <form id="formNovoCentro" class="form-inline">
+            <input type="text" id="novoCentroNome" placeholder="Nome (ex: Talhão 3)" required maxlength="80">
+            <input type="text" id="novoCentroTipo" placeholder="Tipo (ex: Lavoura)" list="listaTipos" required maxlength="40">
+            <datalist id="listaTipos"></datalist>
+            <input type="number" id="novoCentroArea" placeholder="Área (ha)" step="0.1" min="0">
+            <label class="checkbox-inline"><input type="checkbox" id="novoCentroAtivo" checked> Ativo</label>
+            <button type="submit" class="btn-primary">Adicionar</button>
           </form>
           <div class="table-wrap">
-            <table id="tabelaCategorias">
-              <thead><tr><th>Categoria</th><th>Área</th><th></th></tr></thead>
+            <table id="tabelaCentros">
+              <thead><tr><th>Nome</th><th>Tipo</th><th>Área (ha)</th><th>Ativo</th><th></th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
         </section>
-      </div>
-
-    </section>
-
-    <!-- ===================== CENTROS DE CUSTO ===================== -->
-    <section id="view-centros" class="view hidden">
-      <section class="card">
-        <h2>Centros de Custo</h2>
-        <form id="formNovoCentro" class="form-inline">
-          <input type="text" id="novoCentroNome" placeholder="Nome (ex: Talhão 3)" required maxlength="80">
-          <input type="text" id="novoCentroTipo" placeholder="Tipo (ex: Lavoura)" list="listaTipos" required maxlength="40">
-          <datalist id="listaTipos"></datalist>
-          <input type="number" id="novoCentroArea" placeholder="Área (ha)" step="0.1" min="0">
-          <label class="checkbox-inline"><input type="checkbox" id="novoCentroAtivo" checked> Ativo</label>
-          <button type="submit">Adicionar</button>
-        </form>
-        <div class="table-wrap">
-          <table id="tabelaCentros">
-            <thead><tr><th>Nome</th><th>Tipo</th><th>Área (ha)</th><th>Ativo</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-    </section>
-
-    <!-- ===================== FORNECEDORES ===================== -->
-    <section id="view-fornecedores" class="view hidden">
-      <section class="card">
-        <h2>Fornecedores</h2>
-        <form id="formNovoFornecedor" class="form-inline">
-          <input type="text" id="novoFornecedorNome" placeholder="Nome" required maxlength="120">
-          <input type="text" id="novoFornecedorCategoria" placeholder="Categoria principal" list="listaAreas" maxlength="80">
-          <input type="text" id="novoFornecedorTelefone" placeholder="Telefone" maxlength="30">
-          <input type="text" id="novoFornecedorObs" placeholder="Observações" maxlength="200">
-          <button type="submit">Adicionar</button>
-        </form>
-        <div class="table-wrap">
-          <table id="tabelaFornecedores">
-            <thead><tr><th>Nome</th><th>Categoria Principal</th><th>Telefone</th><th>Observações</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-    </section>
-
-    <!-- ===================== DASHBOARD ===================== -->
-    <section id="view-dashboard" class="view hidden">
-
-      <section class="card">
-        <div class="filtros-row">
-          <label class="filtro-label">De
-            <input type="date" id="dashDataInicio">
-          </label>
-          <label class="filtro-label">Até
-            <input type="date" id="dashDataFim">
-          </label>
-          <select id="dashCentro"><option value="">Todos os Centros de Custo</option></select>
-          <button id="btnAplicarFiltroDash" class="btn-link">Aplicar filtro</button>
-        </div>
       </section>
 
-      <section class="kpi-row">
-        <div class="kpi-card">
-          <span class="kpi-label">Total lançado</span>
-          <span class="kpi-value" id="kpiTotalLancado">R$ 0,00</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Total pago</span>
-          <span class="kpi-value" id="kpiTotalPago">R$ 0,00</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Total pendente</span>
-          <span class="kpi-value" id="kpiTotalPendente">R$ 0,00</span>
-        </div>
-        <div class="kpi-card kpi-alerta">
-          <span class="kpi-label">Total vencido</span>
-          <span class="kpi-value" id="kpiTotalVencido">R$ 0,00</span>
-        </div>
+      <!-- ===================== FORNECEDORES ===================== -->
+      <section id="view-fornecedores" class="view hidden">
+        <section class="card card-wide">
+          <h2>Fornecedores</h2>
+          <form id="formNovoFornecedor" class="form-inline">
+            <input type="text" id="novoFornecedorNome" placeholder="Nome" required maxlength="120">
+            <input type="text" id="novoFornecedorCategoria" placeholder="Categoria principal" list="listaAreas" maxlength="80">
+            <input type="text" id="novoFornecedorTelefone" placeholder="Telefone" maxlength="30">
+            <input type="text" id="novoFornecedorObs" placeholder="Observações" maxlength="200">
+            <button type="submit" class="btn-primary">Adicionar</button>
+          </form>
+          <div class="table-wrap">
+            <table id="tabelaFornecedores">
+              <thead><tr><th>Nome</th><th>Categoria Principal</th><th>Telefone</th><th>Observações</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
       </section>
 
-      <section class="card">
-        <h2>Pendências e vencimentos</h2>
-        <div class="table-wrap">
-          <table id="tabelaVencimentos">
-            <thead><tr><th>Vencimento</th><th>Descrição</th><th>Fornecedor</th><th>Valor</th><th>Situação</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Por Centro de Custo</h2>
-        <div class="chart-wrap"><canvas id="chartCentro"></canvas></div>
-      </section>
-
-      <section class="card">
-        <h2>Por Categoria</h2>
-        <div class="chart-wrap"><canvas id="chartCategoria"></canvas></div>
-      </section>
-
-      <section class="card">
-        <h2>Principais Fornecedores</h2>
-        <div class="chart-wrap"><canvas id="chartFornecedor"></canvas></div>
-      </section>
-
-      <section class="card">
-        <h2>Evolução mensal (últimos 12 meses)</h2>
-        <div class="chart-wrap"><canvas id="chartMensal"></canvas></div>
-      </section>
-
-    </section>
-
-  </section>
-
-</main>
+    </main>
+  </div>
+</div>
 
 <script src="config.js"></script>
 <script src="app.js"></script>

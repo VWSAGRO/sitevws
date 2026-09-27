@@ -133,7 +133,7 @@ async function onLoginSuccess() {
 
   await Promise.all([carregarCategorias(), carregarCentros(), carregarFornecedores()]);
   popularSelectsFormulario('f', true);
-  carregarRecentes();
+  switchView('dashboard');
 }
 
 document.getElementById('btnLogout').addEventListener('click', function () {
@@ -149,10 +149,19 @@ document.getElementById('btnLogout').addEventListener('click', function () {
 window.addEventListener('load', initGoogleAuth);
 
 // ===================== Navegação =====================
+const TITULOS_VIEW = {
+  dashboard: 'Dashboard',
+  lancamentos: 'Nova despesa',
+  despesas: 'Despesas',
+  centros: 'Centros de Custo',
+  fornecedores: 'Fornecedores',
+};
+
 function switchView(view) {
   document.querySelectorAll('.view').forEach(function (v) { v.classList.add('hidden'); });
   document.getElementById('view-' + view).classList.remove('hidden');
   document.querySelectorAll('.nav-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.view === view); });
+  document.getElementById('pageTitle').textContent = TITULOS_VIEW[view] || '';
 
   if (view === 'despesas') carregarDespesasGrid();
   if (view === 'centros') carregarCentros();
@@ -294,7 +303,6 @@ document.getElementById('formDespesa').addEventListener('submit', async function
 
     document.getElementById('formDespesa').reset();
     document.getElementById('fData').valueAsDate = new Date();
-    carregarRecentes();
   } catch (e) {
     msg.textContent = 'Erro ao lançar despesa: ' + e.message;
     msg.className = 'error';
@@ -303,23 +311,6 @@ document.getElementById('formDespesa').addEventListener('submit', async function
     btn.disabled = false;
   }
 });
-
-async function carregarRecentes() {
-  try {
-    const linhas = await sheetsGet(CONFIG.SHEETS.despesas + '!A4:K5000');
-    const validas = linhas.filter(function (r) { return r[0]; });
-    const ultimas = validas.slice(-8).reverse();
-    const tbody = document.querySelector('#tabelaRecentes tbody');
-    tbody.innerHTML = ultimas.map(function (r) {
-      const faltaClassificar = !r[1] || !r[2];
-      return '<tr class="' + (faltaClassificar ? 'row-atencao' : '') + '">' +
-        [0, 1, 2, 3, 4, 6, 7, 10].map(function (i) { return '<td>' + escapeHtml(r[i] || '') + '</td>'; }).join('') +
-        '</tr>';
-    }).join('');
-  } catch (e) { console.error(e); }
-}
-
-document.getElementById('btnAtualizar').addEventListener('click', carregarRecentes);
 
 // ===================== Despesas: grid editável =====================
 async function carregarDespesasGrid() {
@@ -376,8 +367,10 @@ function renderDespesasGrid() {
       '<td>' + escapeHtml(v[4] || '') + '</td>' +
       '<td>R$ ' + escapeHtml(v[6] || '') + '</td>' +
       '<td>' + escapeHtml(v[7] || '') + (faltaClassificar ? ' <span class="tag-classificar">Falta classificar</span>' : '') + '</td>' +
-      '<td class="table-actions"><button type="button" onclick="abrirEdicaoDespesa(' + item.row + ')">Editar</button></td>' +
-      '</tr>';
+      '<td class="table-actions">' +
+      '<button type="button" onclick="abrirEdicaoDespesa(' + item.row + ')">Editar</button>' +
+      '<button type="button" class="danger" onclick="excluirDespesa(' + item.row + ')">Excluir</button>' +
+      '</td></tr>';
   }).join('') || '<tr><td colspan="8">Nenhum lançamento encontrado.</td></tr>';
 
   const total = despesasFiltradas.length;
@@ -420,6 +413,19 @@ document.getElementById('btnCancelarEdicao').addEventListener('click', function 
   editingDespesaRow = null;
   document.getElementById('painelEditarDespesa').classList.add('hidden');
 });
+
+async function excluirDespesa(rowNumber) {
+  const item = despesasRows.find(function (r) { return r.row === rowNumber; });
+  if (!item) return;
+  const descricao = item.vals[3] || '(sem descrição)';
+  if (!confirm('Excluir o lançamento "' + descricao + '" no valor de R$ ' + escapeHtml(item.vals[6] || '') + '? Essa ação não pode ser desfeita pelo site (mas o histórico de versões da planilha no Google Sheets ainda guarda o registro).')) return;
+  await sheetsDeleteRow(CONFIG.SHEETS.despesas, rowNumber);
+  if (editingDespesaRow === rowNumber) {
+    editingDespesaRow = null;
+    document.getElementById('painelEditarDespesa').classList.add('hidden');
+  }
+  await carregarDespesasGrid();
+}
 
 document.getElementById('formEditarDespesa').addEventListener('submit', async function (ev) {
   ev.preventDefault();
