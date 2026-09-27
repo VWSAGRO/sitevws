@@ -20,6 +20,13 @@ planilha — não de senha nenhuma. Por isso o passo 1 é o mais importante.
 Só quem estiver nessa lista conseguirá salvar dados pelo site, mesmo que o
 código do site seja público no GitHub.
 
+## 1.1 Adicione a coluna "Número da NF"
+
+O site agora tem um campo opcional para o número da nota fiscal. Ele grava na
+coluna **L** da aba **Despesas** — se essa coluna ainda não existir, abra a
+planilha e digite `Número NF` na célula **L3** (mesma linha dos outros
+cabeçalhos, como "Data", "Categoria" etc.).
+
 ## 2. Crie o Client ID do Google (login "Entrar com Google")
 
 1. Acesse [console.cloud.google.com](https://console.cloud.google.com/) e

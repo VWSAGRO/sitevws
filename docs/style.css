@@ -244,6 +244,8 @@ input:focus, select:focus {
 .autocomplete-item:hover { background: var(--accent-light); }
 .autocomplete-empty { padding: 9px 12px; font-size: 0.85rem; color: var(--muted); }
 
+.opcional { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
+
 .form-inline button.btn-primary { margin-top: 0; }
 
 .btn-link {

@@ -51,9 +51,10 @@ function extrairDadosComClaude(arquivo, apiKey) {
 
   const prompt = 'Você recebeu uma nota fiscal ou recibo de despesa de uma propriedade rural. ' +
     'Extraia os dados e responda SOMENTE com um JSON estrito (sem markdown, sem texto antes ou depois), ' +
-    'no formato exato: {"data":"DD/MM/AAAA","fornecedor":"...","valor":0.00,"descricao":"..."}. ' +
+    'no formato exato: {"data":"DD/MM/AAAA","fornecedor":"...","valor":0.00,"descricao":"...","numero_nf":"..."}. ' +
     'Use "" (string vazia) nos campos que não conseguir identificar com confiança. ' +
-    'O campo "valor" deve ser o valor total pago, apenas número, com ponto como separador decimal.';
+    'O campo "valor" deve ser o valor total pago, apenas número, com ponto como separador decimal. ' +
+    'O campo "numero_nf" é o número da nota fiscal impresso no documento (ex: "12345"), sem o texto "NF" ou "Nº".';
 
   const payload = {
     model: ANTHROPIC_MODEL,
@@ -106,5 +107,6 @@ function lancarDespesa(aba, arquivo, dados) {
     '',
     '⚠ Falta classificar (Centro de Custo, Categoria, Status). Arquivo: ' + arquivo.getUrl(),
     'Automático (Claude)',
+    dados.numero_nf || '',
   ]);
 }

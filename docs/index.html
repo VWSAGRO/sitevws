@@ -179,6 +179,10 @@
                 <input type="date" id="fVencimento">
               </label>
 
+              <label>Número da NF <span class="opcional">(opcional)</span>
+                <input type="text" id="fNumeroNF" maxlength="40">
+              </label>
+
               <label class="col-2">Observações
                 <input type="text" id="fObservacoes" maxlength="200">
               </label>
@@ -216,7 +220,7 @@
                 <thead>
                   <tr>
                     <th>Data</th><th>Centro de Custo</th><th>Categoria</th><th>Descrição</th>
-                    <th>Fornecedor</th><th>Valor</th><th>Status</th><th></th>
+                    <th>Fornecedor</th><th>NF</th><th>Valor</th><th>Status</th><th></th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -267,6 +271,9 @@
                 </label>
                 <label>Vencimento
                   <input type="date" id="eVencimento">
+                </label>
+                <label>Número da NF <span class="opcional">(opcional)</span>
+                  <input type="text" id="eNumeroNF" maxlength="40">
                 </label>
                 <label class="col-2">Observações
                   <input type="text" id="eObservacoes" maxlength="200">

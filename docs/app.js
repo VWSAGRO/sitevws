@@ -293,9 +293,10 @@ document.getElementById('formDespesa').addEventListener('submit', async function
       formatarDataBR(document.getElementById('fVencimento').value),
       document.getElementById('fObservacoes').value,
       currentUser.name || currentUser.email,
+      document.getElementById('fNumeroNF').value,
     ];
 
-    await sheetsAppend(CONFIG.SHEETS.despesas + '!A4:K', row);
+    await sheetsAppend(CONFIG.SHEETS.despesas + '!A4:L', row);
 
     msg.textContent = 'Despesa lançada com sucesso.';
     msg.className = 'success';
@@ -314,7 +315,7 @@ document.getElementById('formDespesa').addEventListener('submit', async function
 
 // ===================== Despesas: grid editável =====================
 async function carregarDespesasGrid() {
-  const dados = await sheetsGet(CONFIG.SHEETS.despesas + '!A4:K5000');
+  const dados = await sheetsGet(CONFIG.SHEETS.despesas + '!A4:L5000');
   despesasRows = dados.map(function (vals, i) { return { row: i + 4, vals: vals }; }).filter(function (r) { return r.vals[0]; });
 
   popularSelectComOpcoes(document.getElementById('filtroCentro'), opcoesCentros(false), 'Todos os Centros de Custo');
@@ -365,6 +366,7 @@ function renderDespesasGrid() {
       '<td>' + escapeHtml(v[2] || '') + '</td>' +
       '<td>' + escapeHtml(v[3] || '') + '</td>' +
       '<td>' + escapeHtml(v[4] || '') + '</td>' +
+      '<td>' + escapeHtml(v[11] || '') + '</td>' +
       '<td>R$ ' + escapeHtml(v[6] || '') + '</td>' +
       '<td>' + escapeHtml(v[7] || '') + (faltaClassificar ? ' <span class="tag-classificar">Falta classificar</span>' : '') + '</td>' +
       '<td class="table-actions">' +
@@ -404,6 +406,7 @@ function abrirEdicaoDespesa(rowNumber) {
   document.getElementById('eStatus').value = v[7] || 'Pago';
   document.getElementById('eVencimento').value = paraInputDate(v[8]);
   document.getElementById('eObservacoes').value = v[9] || '';
+  document.getElementById('eNumeroNF').value = v[11] || '';
 
   document.getElementById('painelEditarDespesa').classList.remove('hidden');
   document.getElementById('painelEditarDespesa').scrollIntoView({ behavior: 'smooth' });
@@ -445,6 +448,7 @@ document.getElementById('formEditarDespesa').addEventListener('submit', async fu
       formatarDataBR(document.getElementById('eVencimento').value),
       document.getElementById('eObservacoes').value,
       linhaOriginal[10] || (currentUser.name || currentUser.email),
+      document.getElementById('eNumeroNF').value,
     ];
     await sheetsUpdateRow(CONFIG.SHEETS.despesas, editingDespesaRow, values);
     editingDespesaRow = null;
@@ -685,7 +689,7 @@ function paraInputDateObj(d) {
 document.getElementById('btnAplicarFiltroDash').addEventListener('click', atualizarDashboard);
 
 async function atualizarDashboard() {
-  const dados = await sheetsGet(CONFIG.SHEETS.despesas + '!A4:K5000');
+  const dados = await sheetsGet(CONFIG.SHEETS.despesas + '!A4:L5000');
   const validas = dados.filter(function (r) { return r[0]; });
 
   const dataInicioStr = document.getElementById('dashDataInicio').value;
